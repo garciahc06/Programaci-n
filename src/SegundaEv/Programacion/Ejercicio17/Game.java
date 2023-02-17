@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends Frame implements Runnable {
+    int score = 0;
+    boolean inicio = false;
+    boolean fin = false;
     int cronometro = 0;
     public static final int TIEMPO = 30;
     public static int IZQUIERDA = 0;
@@ -40,7 +43,6 @@ public class Game extends Frame implements Runnable {
         //Método start
         animacion = new Thread(this);
         animacion.start();
-
     }
 
     public void paint(Graphics g) {
@@ -53,6 +55,14 @@ public class Game extends Frame implements Runnable {
         }
         for (int i = 0; i < spaceships.size(); i++) {
             spaceships.get(i).paint(noseve);
+        }
+
+
+        //Cuando se acabe el juego se muestra el mensaje GAME OVER
+        if (fin) {
+            noseve.setColor(Color.red);
+            noseve.setFont(new Font("Arial", Font.BOLD, 50));
+            noseve.drawString("GAME OVER", 100, 250);
         }
 
         g.drawImage(imagen, 0, 0, this);
@@ -78,7 +88,24 @@ public class Game extends Frame implements Runnable {
             for (int i = 0; i < spaceships.size(); i++)
                 spaceships.get(i).update();
 
+            for(int i = 0; i < bullets.size(); i++) {
+                for(int j = 0; j < spaceships.size(); j++) {
+                    if(bullets.get(i).intersects(spaceships.get(j))) {
+                        spaceships.remove(j);
+                        bullets.remove(i);
+                        break;
+                    }
+                }
+            }
 
+            //si una nave toca el suelo, se acaba el juego
+            for (int i = 0; i < spaceships.size(); i++)
+                if (spaceships.get(i).y >= 500) {
+                    fin = true;
+                    repaint();
+                    animacion.stop();
+                    break;
+                }
             repaint();
             try {
                 Thread.sleep(TIEMPO);

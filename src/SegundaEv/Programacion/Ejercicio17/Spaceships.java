@@ -15,8 +15,8 @@ public class Spaceships extends Rectangle {
         g.fillRect(x, y, width, height);
     }
     public void update(){
+        if (x <= 0 || x >= 475) velX *= -1;
         x += velX;
         y += velY;
-        if (x <= 0 || x >= 475) velX *= -1;
     }
 }
