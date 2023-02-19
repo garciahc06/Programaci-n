@@ -21,16 +21,16 @@ public class Rana extends Rectangle {
     public void mover(int direccion){
         switch (direccion){
             case App.ARRIBA:
-                y -= 15;
+                y -= 5;
                 break;
             case App.ABAJO:
-                y += 15;
+                y += 5;
                 break;
             case App.IZQUIERDA:
-                x -= 15;
+                x -= 5;
                 break;
             case App.DERECHA:
-                x += 15;
+                x += 5;
                 break;
         }
         update();

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends Frame implements Runnable {
-    int score = 0;
-    boolean inicio = false;
     boolean fin = false;
     int cronometro = 0;
     public static final int TIEMPO = 30;

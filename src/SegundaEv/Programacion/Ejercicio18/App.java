@@ -1,6 +1,8 @@
 package SegundaEv.Programacion.Ejercicio18;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /*
 Clase ejectuable,
@@ -11,11 +13,15 @@ public class App extends Frame implements Runnable {
     public static final int ABAJO = 2;
     public static final int IZQUIERDA = 3;
     public static final int DERECHA = 4;
+    public static final int TIEMPO = 30;
     Graphics noseve;
     Image imagen;
     Thread animacion;
     Rana rana;
-    Coche coche;
+    List<Coche> coche;
+    int cronometro = 0;
+    boolean fin = false;
+
 
     public static void main(String[] args) {
         App app = new App();
@@ -28,7 +34,13 @@ public class App extends Frame implements Runnable {
 
         //Método init
         rana = new Rana();
-        coche = new Coche();
+        coche = new ArrayList<Coche>();
+        for (int i = 0; i < 10; i++) {
+            coche.add(new Coche());
+        }
+
+
+
         imagen = this.createImage(500, 500);
         noseve = imagen.getGraphics();
 
@@ -39,18 +51,21 @@ public class App extends Frame implements Runnable {
     }
     public void paint(Graphics g){
         //Dibujamos la carretera
-        noseve.setColor(Color.gray);
+        noseve.setColor(Color.darkGray);
         noseve.fillRect(0, 0, 500, 500 );
         noseve.setColor(Color.black);
         noseve.fillRect(0, 67, 500, 392);
-        noseve.setColor(Color.white);
-        noseve.fillRect(0,250, 500, 35);
-
+        for (int i = 0; i < 500; i += 50) {
+            noseve.setColor(Color.white);
+            noseve.fillRect(i, 250, 40, 25);
+        }
         //Dibujamos la rana
         rana.paint(noseve);
 
         //Dibujamos el coche
-        coche.paint(noseve);
+        for (Coche coche : coche) {
+            coche.paint(noseve);
+        }
         g.drawImage(imagen, 0, 0, this);
     }
     public void update(Graphics g){
@@ -58,10 +73,20 @@ public class App extends Frame implements Runnable {
     }
     public void run(){
         while(true){
+            cronometro += TIEMPO;
+            if (cronometro >= 1000) {
+                for (int i = 0; i < 6; i++)
+                    coche.add(new Coche());
+                cronometro = 0;
+            }
+
             rana.update();
+            for (Coche coche : coche) {
+                coche.update();
+            }
             repaint();
             try{
-                Thread.sleep(10);
+                Thread.sleep(TIEMPO);
             }catch(Exception e){
                 e.printStackTrace();
             }
