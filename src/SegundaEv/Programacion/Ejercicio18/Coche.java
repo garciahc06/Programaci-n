@@ -3,18 +3,23 @@ package SegundaEv.Programacion.Ejercicio18;
 import java.awt.*;
 
 public class Coche extends Rectangle {
-    int velX = 5;
+    int velX;
+    public static final int ANCHO = 30;
+    public static final int ALTO = 20;
+    Color color = Color.RED;
 
-    public Coche() {
-        super(0, (int) (Math.random() * 358) + 67, 50, 35);
-        if (y <= 250)
-            velX = - velX;
-        if (y > 250 && y < 275)
-            velX = (int) (Math.random() * 10) + 5;
+    public Coche(int posX, int posY) {
+        super(posX, posY, ANCHO, ALTO);
+        velX = (int) (Math.random() * 3) + 2;
+        if(posX >= 300) {
+            velX = -velX;
+            color = Color.ORANGE;
+        }
+
     }
 
     public void paint(Graphics g) {
-        g.setColor(Color.red);
+        g.setColor(color);
         g.fillRect(x, y, width, height);
     }
 

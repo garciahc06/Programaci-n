@@ -18,15 +18,17 @@ public class App extends Frame implements Runnable {
     Image imagen;
     Thread animacion;
     Rana rana;
-    List<Coche> coche;
+    ArrayList<Coche> coches;
     int cronometro = 0;
     boolean fin = false;
+    public static final int ALTURA = 500;
 
 
     public static void main(String[] args) {
         App app = new App();
     }
-    public App(){
+
+    public App() {
         super();
         pack();
         setSize(500, 500);
@@ -34,11 +36,7 @@ public class App extends Frame implements Runnable {
 
         //Método init
         rana = new Rana();
-        coche = new ArrayList<Coche>();
-        for (int i = 0; i < 10; i++) {
-            coche.add(new Coche());
-        }
-
+        coches = new ArrayList<Coche>();
 
 
         imagen = this.createImage(500, 500);
@@ -49,10 +47,11 @@ public class App extends Frame implements Runnable {
         animacion.start();
 
     }
-    public void paint(Graphics g){
+
+    public void paint(Graphics g) {
         //Dibujamos la carretera
         noseve.setColor(Color.darkGray);
-        noseve.fillRect(0, 0, 500, 500 );
+        noseve.fillRect(0, 0, 500, 500);
         noseve.setColor(Color.black);
         noseve.fillRect(0, 67, 500, 392);
         for (int i = 0; i < 500; i += 50) {
@@ -63,36 +62,47 @@ public class App extends Frame implements Runnable {
         rana.paint(noseve);
 
         //Dibujamos el coche
-        for (Coche coche : coche) {
-            coche.paint(noseve);
+        for (int i = 0; i < coches.size(); i++) {
+            coches.get(i).paint(noseve);
+            if (coches.get(i).intersects(rana)) {
+                coches.remove(i);
+                rana = new Rana();
+            }
         }
+
         g.drawImage(imagen, 0, 0, this);
     }
-    public void update(Graphics g){
+
+    public void update(Graphics g) {
         paint(g);
     }
-    public void run(){
-        while(true){
+
+    public void run() {
+        while (true) {
             cronometro += TIEMPO;
             if (cronometro >= 1000) {
-                for (int i = 0; i < 6; i++)
-                    coche.add(new Coche());
+                if (Math.random() >= 0.5)
+                    coches.add(new Coche(500, (int) (Math.random() * (ALTURA - Coche.ALTO)) + 150));
+                else
+                    coches.add(new Coche(-30, (int) (Math.random() * (ALTURA - Coche.ALTO)) + 250));
                 cronometro = 0;
             }
 
             rana.update();
-            for (Coche coche : coche) {
-                coche.update();
+            for (int i = 0; i < coches.size(); i++) {
+                coches.get(i).update();
+                
             }
             repaint();
-            try{
+            try {
                 Thread.sleep(TIEMPO);
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-    public boolean keyDown(Event e, int key){
+
+    public boolean keyDown(Event e, int key) {
         if (key == 27) System.exit(0);
         if (key == 1004) rana.mover(ARRIBA);
         if (key == 1005) rana.mover(ABAJO);
