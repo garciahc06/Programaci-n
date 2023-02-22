@@ -5,7 +5,7 @@ import java.awt.*;
 public class Pelota extends Rectangle {
     int velX;
     int velY;
-    Raqueta r;
+
     public Pelota(){
         super(290, 529,20,20);
         velX = (int) (Math.random() * 3) + 2;
