@@ -1,6 +1,8 @@
 package SegundaEv.Programacion.Ejercicio20;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 /*
 Juego en el que una pelota se mueve de forma aleatoria por la pantalla, y al hacerle click, esta se divide
 en 2, cogiendo colores y velocidad distintas. La pelota rebota constantemente con los bordes de la pantalla
@@ -10,7 +12,7 @@ public class Juego extends Frame implements Runnable {
     Graphics noseve;
     Image imagen;
     Thread animacion;
-    Pelota pelota;
+    List<Pelota> pelotas;
 
     public static void main(String[] args) {
         Juego juego = new Juego();
@@ -22,7 +24,9 @@ public class Juego extends Frame implements Runnable {
         setVisible(true);
 
         //Método init
-        pelota = new Pelota(0, 0, 50, 50);
+        pelotas = new ArrayList<Pelota>();
+        pelotas.add(new Pelota(225, 225, 250));
+
 
         imagen = this.createImage(500, 500);
         noseve = imagen.getGraphics();
@@ -35,7 +39,10 @@ public class Juego extends Frame implements Runnable {
         noseve.setColor(Color.black);
         noseve.fillRect(0, 0, 500, 500);
 
-        pelota.paint(noseve);
+        for (int i = 0; i < pelotas.size(); i++) {
+            Pelota pelota = pelotas.get(i);
+            pelota.paint(noseve);
+        }
 
         g.drawImage(imagen, 0, 0, this);
     }
@@ -46,12 +53,37 @@ public class Juego extends Frame implements Runnable {
 
     public void run() {
         while (true) {
-            pelota.update();
+            for (int i = pelotas.size()-1; i >= 0; i--) {
+                Pelota pelota = pelotas.get(i);
+                pelota.update();
+                if (pelota.width < 5){
+                    pelotas.remove(i);
+                }
+            }
             repaint();
             try {
                 Thread.sleep(TIEMPO);
             } catch (InterruptedException e) {}
         }
+    }
+
+    public boolean mouseDown(Event e, int x, int y){
+        for (int i = pelotas.size()-1; i >= 0; i--) {
+            Pelota pelota = pelotas.get(i);
+            if (pelota.contains(x, y)){
+                pelotas.remove(i);
+                pelotas.add(new Pelota(pelota.x, pelota.y, pelota.width/2));
+                pelotas.add(new Pelota(pelota.x, pelota.y, pelota.width/2));
+            }
+        }
+        return true;
+    }
+
+    public boolean keyDown(Event e, int key){
+        if (key == 27){
+            System.exit(0);
+        }
+        return true;
     }
 
 }

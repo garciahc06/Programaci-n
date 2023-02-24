@@ -91,7 +91,6 @@ public class App extends Frame implements Runnable {
             rana.update();
             for (int i = 0; i < coches.size(); i++) {
                 coches.get(i).update();
-                
             }
             repaint();
             try {
