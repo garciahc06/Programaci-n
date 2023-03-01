@@ -12,7 +12,8 @@ public class Dinusaurio extends Rectangle {
         g.fillOval(x, y, width, height);
     }
     public void update(){
-        if (y != posY) y += 2;
+        if (y != posY)
+            y += 2;
     }
     public void saltar(){
         y -= 80;
