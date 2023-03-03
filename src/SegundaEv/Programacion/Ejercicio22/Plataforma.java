@@ -8,7 +8,7 @@ public class Plataforma extends Rectangle {
     Color color;
     Color[] colores = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.PINK, Color.CYAN, Color.MAGENTA};
     public Plataforma (int posX, int posY) {
-        super(posX, posY, 100, 25);
+        super(posX, posY, 100, 20);
 
         this.posX = posX;
         this.posY = posY;
@@ -17,7 +17,7 @@ public class Plataforma extends Rectangle {
 
     public void paint(Graphics g) {
         g.setColor(color);
-        g.fillRect(posX, posY, 100, 25);
+        g.fillRect(posX, posY, width, height);
     }
 
     public void update(){

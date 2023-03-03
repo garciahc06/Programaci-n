@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Juego extends Frame implements Runnable {
     public static final int TIEMPO = 30;
-    public static int cronometro = 0;
+    private static int cronometro = 0;
     Thread animacion;
     Image imagen;
     Graphics noseve;
@@ -24,7 +24,7 @@ public class Juego extends Frame implements Runnable {
         // Método init
         pou = new Pou(215, 200 );
         plataformas = new ArrayList<Plataforma>();
-        plataformas.add(new Plataforma((int) (Math.random()*500), -25 ));
+        plataformas.add(new Plataforma((int) (Math.random()*400) , 0 ));
 
         imagen = createImage(500, 500);
         noseve = imagen.getGraphics();
@@ -39,8 +39,8 @@ public class Juego extends Frame implements Runnable {
         noseve.fillRect(0, 0, 500, 500);
 
         pou.paint(noseve);
-        for (Plataforma plataforma : plataformas) {
-            plataforma.paint(noseve);
+        for (int i = 0; i < plataformas.size(); i++) {
+            plataformas.get(i).paint(noseve);
         }
 
         g.drawImage(imagen, 0, 0, this);
@@ -54,12 +54,19 @@ public class Juego extends Frame implements Runnable {
         while (true) {
             cronometro += TIEMPO;
             if (cronometro == 1000) {
-                plataformas.add(new Plataforma((int) (Math.random()*500), -25 ));
+                plataformas.add(new Plataforma((int) (Math.random()*400), -25 ));
                 cronometro = 0;
             }
             pou.update();
-            for (Plataforma plataforma : plataformas) {
-                plataforma.update();
+            for (int i = 0; i < plataformas.size(); i++) {
+                plataformas.get(i).update();
+            }
+
+            // Colisiones, Solo intersecta si pou, cae por encima del obstaculo, entonces esté se quedará en su superficie
+            for (int i = 0; i < plataformas.size(); i++){
+                if (pou.intersects(plataformas.get(i))){
+                    pou.y = plataformas.get(i).y - 50;
+                }
             }
 
             try {

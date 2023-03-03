@@ -15,7 +15,7 @@ public class Pou extends Rectangle {
     }
 
     public void update(){
-        posY += 5;
+        posY += 2;
         if (posX > 500){
             posX = -20;
         }
@@ -24,7 +24,7 @@ public class Pou extends Rectangle {
         }
     }
     public void salto(){
-        posY -= 50;
+        posY -= 80;
     }
     public void moverDcha(){
         posX += 50;
