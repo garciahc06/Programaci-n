@@ -32,4 +32,14 @@ public class Pou extends Rectangle {
     public void moverIzq(){
         posX -= 50;
     }
+       public int getPosX(){
+            return posX;
+        }
+
+    public void setPosY(int posY){
+        this.posY = posY;
+    }
+    public int setVelY(){
+        return posY;
+    }
 }

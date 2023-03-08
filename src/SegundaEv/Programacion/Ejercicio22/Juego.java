@@ -62,10 +62,11 @@ public class Juego extends Frame implements Runnable {
                 plataformas.get(i).update();
             }
 
-            // Colisiones, Solo intersecta si pou, cae por encima del obstaculo, entonces esté se quedará en su superficie
-            for (int i = 0; i < plataformas.size(); i++){
-                if (pou.intersects(plataformas.get(i))){
-                    pou.y = plataformas.get(i).y - 50;
+            for (int i = 0; i < plataformas.size(); i++) {
+                if (pou.intersects(plataformas.get(i))) {
+                    pou.setPosY(plataformas.get(i).getPosY() - 25);
+                    pou.setVelY();
+
                 }
             }
 

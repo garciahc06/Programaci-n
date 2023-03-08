@@ -23,4 +23,10 @@ public class Plataforma extends Rectangle {
     public void update(){
         posY++;
     }
+    public int getPosX(){
+        return posX;
+    }
+    public int getPosY(){
+        return posY;
+    }
 }
