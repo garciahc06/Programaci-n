@@ -1,74 +1,95 @@
+
 package TerceraEv.Ejercicio01;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Frame;
+import java.awt.Color;
+import java.awt.Event;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+import java.io.File;
+
+import java.awt.Font;
+import java.awt.Color;
 
 
 public class Caminando extends Frame implements Runnable {
-    public static final int FILAS = 10;
-    public static final int COLUMNAS = 3;
     Thread animacion;
     Image imagen;
     Graphics noseve;
     Image img;
-    Image[][] fotogramas;
-    String[] elementos = {"Guerrillero/g", "Hampon/h", "Vaquero/v"};
+    Image[][] imagenes = new Image[3][4];
+    String elementos[] = {"Guerrillero/g", "Hampon/h", "Vaquero/v"};
+//    DibujoAnimado dib;
 
     public static void main(String[] args) {
-        Caminando c = new Caminando();
+        Caminando app = new Caminando();
+    }
+    public Caminando(){
+            super("Ranas saltando :3");
+            pack();
+            setSize(300,300);
+            setVisible(true);
+            // init
+            imagen = this.createImage(300, 300);
+            noseve = imagen.getGraphics();
+            try{
+            for(int i = 0; i < 3 ; i++)
+                for(int j = 0; j < 4; j++)
+                imagenes[i][j] = ImageIO.read(new File("C://Users/Maramburu/Documents/NetBeansProjects/Tercera_Evaluacion/src/Ejercicio01/Sprites/"+elementos[i] + (j + 1) + ".gif"));
+            } catch(IOException e){}
+            //Start
+            animacion = new Thread(this);
+            animacion.start();
     }
 
-    public Caminando() {
-        pack();
-        setSize(500, 500);
-        setVisible(true);
 
-        //Método init
-        imagen = createImage(500, 500);
-        noseve = imagen.getGraphics();
 
-        fotogramas = new Image[FILAS][COLUMNAS];
-
-        try {
-
-            for (int i = 0; i < FILAS; i++)
-                for (int j = 0; j < COLUMNAS; j++)
-                    fotogramas[i][j] = ImageIO.read(new File("C://Users/Administrator/Clase/IdeaProjects/Programacion/src/TerceraEv/Ejercicio01/Sprites/" + elementos[i] + (j + 1) + ".gif"));
-        } catch (IOException e) {
-        }
-
-//        img = new ImageIcon("Sprites/Guerrillero/g1.gif").getImage();
-
-        //Método start
-        animacion = new Thread(this);
-        animacion.start();
-    }
-
-    public void paint(Graphics g) {
-        noseve.setColor(Color.black);
-        noseve.fillRect(0, 0, 500, 500);
-
-        noseve.drawImage(fotogramas[1][1], 70, 70, 100,150, this);
+    public void paint(Graphics g){
+       noseve.setColor(Color.BLACK);
+       noseve.fillRect(0, 0, 600, 600);
+       noseve.drawImage(img, 70, 70, 100, 150, this);
+//        if(dib != null)
+//       dib.paint(noseve);
 
         g.drawImage(imagen, 0, 0, this);
     }
 
-    public void update(Graphics g) {
+    public void update(Graphics g){
         paint(g);
     }
 
-    public void run() {
-        while (true) {
+    public void run(){
+        while(true){
+//            if(dib != null)
+//            dib.update();
+            repaint();
             try {
                 Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException ex){
             }
-            repaint();
         }
     }
-
+//    public boolean keyDown(Event ev, int tecla){
+//        if(tecla == 1006){
+//            dib = new DibujoAnimado(imagenes[0]);
+//        }
+//        if(tecla == 1007){
+//            dib = new DibujoAnimado(imagenes[1]);
+//        }
+//        if(tecla == 1004){
+//            dib = new DibujoAnimado(imagenes[2]);
+//        }
+//        if(tecla == 1005){
+//            dib = null;
+//        }
+//        if(tecla == 27)
+//            System.exit(0);
+//        return true;
+//    }
 }
