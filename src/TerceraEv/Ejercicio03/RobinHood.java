@@ -17,7 +17,7 @@ public class RobinHood {
     }
 
     public void paint(Graphics gg, Frame frame) {
-        gg.drawImage(imagen, 100, posY, ANCHURA, ALTURA, frame);
+        gg.drawImage(imagen, 30, posY, ANCHURA, ALTURA, frame);
     }
 
     public void update(int py) {

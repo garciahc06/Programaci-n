@@ -4,7 +4,7 @@ import javax.swing.plaf.metal.MetalTreeUI;
 import java.awt.*;
 
 public class Globo extends Rectangle {
-    public static final int POSY = 605;
+    public static final int POSY = 810;
     public static final int ANCHURA = 80;
     public static final int ALTURA = 120;
     Image imagen;

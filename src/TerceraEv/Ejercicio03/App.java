@@ -15,11 +15,11 @@ public class App extends Frame implements Runnable {
     Image imagen;
     Graphics noseve;
     Thread animacion;
-    Image robin, flecha;
+    Image robin, flechaImg;
     Image[] globosImg;
     RobinHood arquero;
     List<Globo> globos;
-
+    List<Flecha> flechas;
     public static void main(String[] args) {
         App app = new App();
     }
@@ -35,7 +35,7 @@ public class App extends Frame implements Runnable {
         noseve = imagen.getGraphics();
 
         robin = Toolkit.getDefaultToolkit().getImage("src/TerceraEv/Ejercicio03/Imagenes/arquero.png");
-        flecha = Toolkit.getDefaultToolkit().getImage("src/TerceraEv/Ejercicio03/Imagenes/flecha.png");
+        flechaImg = Toolkit.getDefaultToolkit().getImage("src/TerceraEv/Ejercicio03/Imagenes/flecha.png");
 
 
         globosImg = new Image[NUM_GLOBOS];
@@ -47,6 +47,9 @@ public class App extends Frame implements Runnable {
         globos = new ArrayList<Globo>();
         globos.add(new Globo(globosImg[(int) (Math.random() * NUM_GLOBOS)]));
 
+        flechas = new ArrayList<Flecha>();
+
+
         //Método start
         animacion = new Thread(this);
         animacion.start();
@@ -56,9 +59,14 @@ public class App extends Frame implements Runnable {
         noseve.setColor(Color.BLACK);
         noseve.fillRect(0, 0, 800, 800);
 
+        for (Flecha flecha : flechas)
+            flecha.paint(noseve, this);
+
         arquero.paint(noseve, this);
+
         for (Globo globo : globos)
             globo.paint(noseve, this);
+
 
         g.drawImage(imagen, 0, 0, this);
     }
@@ -81,6 +89,12 @@ public class App extends Frame implements Runnable {
                 globo.update();
             }
 
+
+            for (Flecha flecha : flechas) {
+                flecha.update();
+            }
+
+
             repaint();
             try {
                 Thread.sleep(TIEMPO);
@@ -92,14 +106,18 @@ public class App extends Frame implements Runnable {
     }
 
     public boolean keyDown(Event e, int key) {
-        if (key == Event.ESCAPE) {
-            System.exit(0);
-        }
+        if (key == Event.ESCAPE) System.exit(0);
         return true;
     }
 
     public boolean mouseMove(Event e, int x, int y) {
         arquero.update(y - 45);
+        repaint();
+        return true;
+    }
+
+    public boolean mouseDown(Event e, int x, int y) {
+        flechas.add(new Flecha(flechaImg, y - 7));
         repaint();
         return true;
     }
