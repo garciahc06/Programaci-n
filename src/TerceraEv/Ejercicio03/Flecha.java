@@ -1,6 +1,7 @@
 package TerceraEv.Ejercicio03;
 
 import java.awt.*;
+import java.util.List;
 
 public class Flecha extends Point {
     public static final int VELX = 10;
@@ -15,7 +16,13 @@ public class Flecha extends Point {
         gg.drawImage(imagen, x, y,100,50 ,frame);
     }
 
-    public void update() {
+    public void update(List<Globo> globos) {
         x += VELX;
+        for (Globo globo : globos) {
+            if (globo.contains(this)) {
+                globos.remove(globo);
+                break;
+            }
+        }
     }
 }

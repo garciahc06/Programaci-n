@@ -18,8 +18,9 @@ public class App extends Frame implements Runnable {
     Image robin, flechaImg;
     Image[] globosImg;
     RobinHood arquero;
-    List<Globo> globos;
-    List<Flecha> flechas;
+    ArrayList<Globo> globos;
+    ArrayList<Flecha> flechas;
+
     public static void main(String[] args) {
         App app = new App();
     }
@@ -59,14 +60,11 @@ public class App extends Frame implements Runnable {
         noseve.setColor(Color.BLACK);
         noseve.fillRect(0, 0, 800, 800);
 
-        for (Flecha flecha : flechas)
-            flecha.paint(noseve, this);
+        for (Globo globo : globos) globo.paint(noseve, this);
+
+        for (Flecha flecha : flechas) flecha.paint(noseve, this);
 
         arquero.paint(noseve, this);
-
-        for (Globo globo : globos)
-            globo.paint(noseve, this);
-
 
         g.drawImage(imagen, 0, 0, this);
     }
@@ -85,15 +83,21 @@ public class App extends Frame implements Runnable {
 
             if (globos.get(0).y < -100) globos.remove(0);
 
-            for (Globo globo : globos) {
-                globo.update();
-            }
+            for (Globo globo : globos) globo.update();
 
+            if ((!flechas.isEmpty()) && (flechas.get(0).x > 800)) flechas.remove(0);
 
-            for (Flecha flecha : flechas) {
-                flecha.update();
-            }
+            for (Flecha flecha : flechas) flecha.update(globos);
 
+//            for (Flecha flecha : flechas) {
+//                for (Globo globo : globos) {
+//                    if (globo.contains(flecha)) {
+//                        globos.remove(globo);
+//                        flechas.remove(flecha);
+//                        break;
+//                    }
+//                }
+//            }
 
             repaint();
             try {
@@ -106,18 +110,17 @@ public class App extends Frame implements Runnable {
     }
 
     public boolean keyDown(Event e, int key) {
-        if (key == Event.ESCAPE) System.exit(0);
-        return true;
-    }
-
-    public boolean mouseMove(Event e, int x, int y) {
-        arquero.update(y - 45);
-        repaint();
+        if (key == 27) System.exit(0);
         return true;
     }
 
     public boolean mouseDown(Event e, int x, int y) {
         flechas.add(new Flecha(flechaImg, y - 7));
+        return true;
+    }
+
+    public boolean mouseMove(Event e, int x, int y) {
+        arquero.update(y - 45);
         repaint();
         return true;
     }
