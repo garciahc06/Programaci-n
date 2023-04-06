@@ -79,6 +79,7 @@ public class Tablero extends Frame {
             for (int j = 0; j < DIM; j++)
                 casillas[i][j].paint(noseve, this);
 
+
         g.drawImage(imagen, 0, 0, this);
     }
 
@@ -88,7 +89,10 @@ public class Tablero extends Frame {
 
     public boolean mover(Point click) {
         Point desplazamiento, hasta;
-        desplazamiento = new Point(click.x - 1, click.y);
+        desplazamiento = new Point(delta(click.x, hueco.x), delta(click.y, hueco.y));
+        if((desplazamiento.x == 0) && (desplazamiento.y == 0)) return false;
+        if ((desplazamiento.x != 0) && (desplazamiento.y != 0)) return false;
+
 
         return true;
     }
